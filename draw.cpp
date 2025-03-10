@@ -1,4 +1,9 @@
 #include<stdio.h>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <conio.h> 
+#include <windows.h>
 
 using namespace std;
 
@@ -17,14 +22,14 @@ void drawField()
         {
             if (field[y][x])
             {
-                cout << "#"; 
+                cout<< "#"; 
             }
             else
             {
-                cout << "."; 
+                cout<< "."; 
             }
         }
-        cout << endl;
+        cout<<endl;
     }
 }
 
