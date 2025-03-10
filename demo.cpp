@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <conio.h> // For _kbhit and _getch (Windows)
-
+#include <windows.h>
 // Game constants
 const int WIDTH = 10;
 const int HEIGHT = 20;
