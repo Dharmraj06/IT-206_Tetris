@@ -10,7 +10,7 @@ using namespace std;
 int Width = 10;
 int Height = 20;
 int currentTetromino;
-int currentRotation;
+int rnum;
 int currentX;
 int currentY;
 
@@ -48,10 +48,10 @@ void control()
             }
             else if (key == char(72))
             {
-                currentRotation = (currentRotation + 1) % 4;
-                if (!canPlace(currentX, currentY, getCurrentShape()))
+                rnum = (rnum + 1) % 4;
+                if (!canPlace(currentX, currentY, get_tetromino(curr_tetro))
                 {
-                    currentRotation = (currentRotation - 1 + 4) % 4; // Revert rotation if invalid
+                    rnum = (rnum - 1 + 4) % 4; // Revert rotation if invalid
                 }
             }
             
@@ -59,8 +59,8 @@ void control()
 }
 
 bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<int>>& field) {
-    for (size_t i = 0; i < shape.size(); ++i) {
-        for (size_t j = 0; j < shape[0].size(); ++j) {
+    for (int i = 0; i < shape.size(); ++i) {
+        for (int j = 0; j < shape[0].size(); ++j) {
             if (shape[i][j]) {
                 if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j])) {
                     return false;
