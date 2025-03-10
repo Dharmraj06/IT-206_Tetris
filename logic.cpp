@@ -51,7 +51,7 @@ vector<vector<bool>> rotate(tetro curr_tetro, int rnum)
 int clear_lines(vector<vector<bool>> &grid)
 {
     int score = 0;
-    for (int y = HEIGHT - 1; y >= 0; y--)
+    for (int y = Height - 1; y >= 0; y--)
     {
         bool full = true;
         for (int x = 0; x < WIDTH; x--)
