@@ -9,13 +9,13 @@ int currentRotation;
 int currentX;
 int currentY;
 
-void drawField()
+void drawGrid()
 {
     for (int y = 0; y < Height; ++y)
     {
         for (int x = 0; x < Width; ++x)
         {
-            if (field[y][x])
+            if (grid[y][x])
             {
                 cout << "#"; 
             }
@@ -28,11 +28,9 @@ void drawField()
     }
 }
 
-
-
 bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<int>>& field) {
-    for (size_t i = 0; i < shape.size(); ++i) {
-        for (size_t j = 0; j < shape[0].size(); ++j) {
+    for (int i = 0; i < shape.size(); ++i) {
+        for (int j = 0; j < shape[0].size(); ++j) {
             if (shape[i][j]) {
                 if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j])) {
                     return false;
