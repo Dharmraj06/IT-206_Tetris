@@ -4,25 +4,8 @@
 #include <ctime>
 #include <conio.h>
 #include <windows.h>
+#include "logic.h"
 
-const int WIDTH = 10;
-const int HEIGHT = 20;
-
-using namespace std;
-
-// rotate the tetromino
-enum tetro
-{
-    L,
-    O,
-    I,
-    S,
-    Z,
-    J,
-    T
-};
-
-vector<vector<bool>> get_tetromino(tetro curr_tetro);
 
 vector<vector<bool>> rotate(tetro curr_tetro, int rnum)
 {
@@ -47,7 +30,6 @@ vector<vector<bool>> rotate(tetro curr_tetro, int rnum)
     return shape;
 }
 
-//checks and clears the lines which are full
 int clear_lines(vector<vector<bool>> &grid)
 {
     int score = 0;
@@ -78,7 +60,6 @@ int clear_lines(vector<vector<bool>> &grid)
 }
 
 int CurrX, CurrY;
-//when the tetromino is placed
 void addtogrid(vector<vector<bool>> &grid, tetro curr_tetro)
 {
 

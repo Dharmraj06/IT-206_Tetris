@@ -6,6 +6,8 @@
 #include <windows.h>
 #include <iostream>
 
+#include <logic.h>
+
 using namespace std;
 
 int Width = 10;
