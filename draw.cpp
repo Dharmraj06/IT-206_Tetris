@@ -4,6 +4,7 @@
 #include <ctime>
 #include <conio.h> 
 #include <windows.h>
+#include <iostream>
 
 using namespace std;
 
@@ -13,6 +14,7 @@ int curr_tetro;
 int rnum;
 int CurrX;
 int CurrY;
+vector<vector<bool>> grid(Height, vector<bool>(Width, false));
 
 void drawGrid()
 {
@@ -76,3 +78,4 @@ bool canplace(int x, int y, const vector<vector<bool>>& shape, const vector<vect
     }
     return true;
 }
+// if the return value of the function canplace is true then call addtogrid
