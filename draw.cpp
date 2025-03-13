@@ -7,14 +7,11 @@
 #include <logic.h>
 
 using namespace std;
-using namespace logic;
 
 int Width = 10;
 int Height = 20;
 int currentTetromino;
-int rnum;
-int currentX;
-int currentY;
+int rnum =rand() % 7;
 
 void drawGrid()
 {
@@ -22,14 +19,19 @@ void drawGrid()
     {
         for (int x = 0; x < Width; ++x)
         {
-            if (grid[y][x])
+            if (x==0||y==0||x==Width-1||y==Height-1)
             {
                 cout<< "#"; 
             }
-            else
+            else if(tetrominoes[currentTetromino][rnum][y * Width + x] == 'X')
+            {
+                cout<< "T"; 
+            }
+            else 
             {
                 cout<< "."; 
             }
+            
         }
         cout<<endl;
     }
@@ -65,7 +67,7 @@ void control()
             else if (key == char(72))
             {
                 rnum = (rnum + 1) % 4;
-                if (!canPlace(currentX, currentY, get_tetromino(curr_tetro)))
+                if (!canPlace(CurrX, CurrY, get_tetromino(curr_tetro)))
                 {
                     rnum = (rnum - 1 + 4) % 4; // Revert rotation if invalid
                 }
