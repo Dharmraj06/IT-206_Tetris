@@ -7,14 +7,14 @@
 #include "tetriminos.h"
 
 Logic::Logic(){
-    CurrX = 0;
-    CurrY = 0;
+    // CurrX = 0;
+    // CurrY = 0;
 }
 
 vector<vector<bool>> Logic::rotate(tetro curr_tetro, int rnum) {
 
 
-    vector<vector<bool>> shape = tetromino.get_tetromino(curr_tetro);
+    vector<vector<bool>> shape = get_tetromino(curr_tetro);
     if (rnum % 4 == 0)
         return shape;
 
@@ -57,10 +57,10 @@ int Logic::clear_lines(vector<vector<bool>> &grid) {
     return score;
 }
 
-void Logic::addtogrid(vector<vector<bool>> &grid, tetro curr_tetro) {
+void Logic::addtogrid(vector<vector<bool>> &grid, tetro curr_tetro, int CurrX, int CurrY) {
 
 
-    vector<vector<bool>> shape = tetromino.get_tetromino(curr_tetro);
+    vector<vector<bool>> shape = get_tetromino(curr_tetro);
 
     for (int i = 0; i < shape.size(); i++) {
         for (int j = 0; j < shape[0].size(); j++) {
@@ -71,7 +71,7 @@ void Logic::addtogrid(vector<vector<bool>> &grid, tetro curr_tetro) {
     }
 }
 
-bool Logic::canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<int>>& field) {
+bool Logic::canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<bool>>& field) {
 
     for (int i = 0; i < shape.size(); ++i) {
         for (int j = 0; j < shape[0].size(); ++j) {
