@@ -9,6 +9,9 @@
 #include "logic.h"
 #include "tetriminos.h"
 
+
+//ector<vector<bool>> get_tetromino(tetro t);
+
 using namespace std;
 
 int Width = 10;
@@ -81,8 +84,6 @@ void control(const vector<vector<bool>> &shape, int currentX, int currentY,const
             rnum = (rnum + 1) % 4;
             if (!canPlace(currentX, currentY, get_tetromino(currentTetromino),field))
             {
-                rnum = (rnum - 1 + 4) % 4; 
-            }
                 rnum = (rnum - 1 + 4) % 4; 
             }
         }
