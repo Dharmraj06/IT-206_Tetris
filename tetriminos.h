@@ -4,7 +4,7 @@
 #include <vector>
 using namespace std;
 
-enum tetro { I, O, S, T, Z, L, J };
+enum tetro { I,J,L,O,S,T,Z };
 
 class Tetromino {
 public:

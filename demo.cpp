@@ -195,6 +195,7 @@ int main()
                 }
             }
         }
+        
         // Move tetromino down
         if (canPlace(currentX, currentY + 1, shape))
         {

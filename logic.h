@@ -8,7 +8,7 @@ using namespace std;
 const int WIDTH = 10;
 const int HEIGHT = 20;
 
-enum tetro { I, O, S, T, Z, L, J };
+enum tetro {  I,J,L,O,S,T,Z  };
 
 class Logic {
     
