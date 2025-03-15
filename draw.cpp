@@ -1,17 +1,20 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-#include <conio.h> 
+#include <conio.h>
 #include <windows.h>
-#include <logic.h>
+
+#include "logic.h"
+#include "tetriminos.h"
 
 using namespace std;
 
 int Width = 10;
 int Height = 20;
 int currentTetromino;
-int rnum =rand() % 7;
+int rnum = rand() % 7;
 
 void drawGrid()
 {
@@ -19,29 +22,37 @@ void drawGrid()
     {
         for (int x = 0; x < Width; ++x)
         {
-            if (x==0||y==0||x==Width-1||y==Height-1)
+            if (x == 0 || y == 0 || x == Width - 1 || y == Height - 1)
             {
-                cout<< "#"; 
+                cout << "#";
             }
-            else if(tetrominoes[currentTetromino][rnum][y * Width + x] == 'X')
+            else if (TETROMINOS[currentTetromino][rnum][y * Width + x] == 'X')
             {
-                cout<< "T"; 
+                cout << "T";
             }
-            else 
+            else
             {
-                cout<< "."; 
+                cout << ".";
             }
-            
         }
-        cout<<endl;
+        cout << endl;
     }
 }
 
-bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<int>>& field) {
-    for (int i = 0; i < shape.size(); ++i) {
-        for (int j = 0; j < shape[0].size(); ++j) {
-            if (shape[i][j]) {
-                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j])) {
+bool canPlace(int x, int y, const vector<vector<bool>> &shape, const vector<vector<int>> &field)
+{
+
+    for (int i = 0; i < shape.size(); ++i)
+    {
+
+        for (int j = 0; j < shape[0].size(); ++j)
+        {
+
+            if (shape[i][j])
+            {
+
+                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j]))
+                {
                     return false;
                 }
             }
@@ -50,37 +61,40 @@ bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vect
     return true;
 }
 
-
 void control()
 {
     if (_kbhit())
+    {
+        char key = _getch();
+        if (key == char(75) && canPlace(currentX - 1, currentY, shape))
         {
-            char key = _getch();
-            if (key == char(75) && canPlace(currentX - 1, currentY, shape))
-            {
-                currentX--;
-            }
-            else if (key == char(77) && canPlace(currentX + 1, currentY, shape))
-            {
-                currentX++;
-            }
-            else if (key == char(72))
-            {
-                rnum = (rnum + 1) % 4;
-                if (!canPlace(CurrX, CurrY, get_tetromino(curr_tetro)))
-                {
-                    rnum = (rnum - 1 + 4) % 4; // Revert rotation if invalid
-                }
-            }
-            
+            currentX--;
         }
+        else if (key == char(77) && canPlace(currentX + 1, currentY, shape))
+        {
+            currentX++;
+        }
+        else if (key == char(72))
+        {
+            rnum = (rnum + 1) % 4;
+            if (!canPlace(CurrX, CurrY, get_tetromino(curr_tetro)))
+            {
+                rnum = (rnum - 1 + 4) % 4; // Revert rotation if invalid
+            }
+        }
+    }
 }
 
-bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<int>>& field) {
-    for (int i = 0; i < shape.size(); ++i) {
-        for (int j = 0; j < shape[0].size(); ++j) {
-            if (shape[i][j]) {
-                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j])) {
+bool canPlace(int x, int y, const vector<vector<bool>> &shape, const vector<vector<int>> &field)
+{
+    for (int i = 0; i < shape.size(); ++i)
+    {
+        for (int j = 0; j < shape[0].size(); ++j)
+        {
+            if (shape[i][j])
+            {
+                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j]))
+                {
                     return false;
                 }
             }
