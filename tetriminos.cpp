@@ -25,6 +25,6 @@ vector<vector<bool>> getRandomTetromino() {
 
     srand(static_cast<unsigned int>(time(nullptr)));
 
-    int index = rand() % TETROMINOS.size();
+f    int index = rand() % TETROMINOS.size();
     return TETROMINOS[index];
 }

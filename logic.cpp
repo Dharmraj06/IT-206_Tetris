@@ -10,6 +10,7 @@ Logic::Logic(){
     CurrX = 0;
     CurrY = 0;
 }
+int score = 0;   
 
 vector<vector<bool>> Logic::rotate(tetro curr_tetro, int rnum) {
 
@@ -34,18 +35,18 @@ vector<vector<bool>> Logic::rotate(tetro curr_tetro, int rnum) {
 }
 
 int Logic::clear_lines(vector<vector<bool>> &grid) {
-    int score = 0;
+    
 
     for (int y = HEIGHT - 1; y >= 0; y--) {
         bool full = true;
-        for (int x = 0; x < WIDTH; x--) {
+        for (int x = WIDTH-1; x >= 0; x--) {
             if (!grid[y][x]) {
                 full = false;
                 break;
             }
         }
         if (full) {
-            score++;
+            score=score+10;
             for (int yy = y; yy > 0; yy--) {
                 grid[yy] = grid[yy - 1];
             }
