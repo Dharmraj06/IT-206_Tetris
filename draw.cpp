@@ -27,7 +27,7 @@ bool canPlace(int x, int y, const vector<vector<bool>> &shape, const vector<vect
         {
             if (shape[i][j])
             {
-                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j]))
+                if (x + j < 0 || x + j >= WIDTH || y + i >= HEIGHT || (y + i >= 0 && field[y + i][x + j]))
                 {
                     return false;
                 }
@@ -37,31 +37,30 @@ bool canPlace(int x, int y, const vector<vector<bool>> &shape, const vector<vect
     return true;
 }
 
-void control(const vector<vector<bool>> &shape, int &currentX, int &currentY, const vector<vector<bool>> &field)
+void control(const vector<vector<bool>> &shape, int &currentX, int &currentY, const vector<vector<bool>> &field, bool &gameOver)
 {
     if (_kbhit())
     {
         char key = _getch();
-        cout<<key<<endl;
-        if (key == 'A' && canPlace(currentX - 1, currentY, shape, field))
+        if (key == 'a' && canPlace(currentX - 1, currentY, shape, field))
         {
             currentX--;
         }
-        else if (key == 'D' && canPlace(currentX + 1, currentY, shape, field))
+        else if (key == 'd' && canPlace(currentX + 1, currentY, shape, field))
         {
             currentX++;
         }
-        else if (key == 'S' && canPlace(currentX, currentY + 1, shape, field))
+        else if (key == 's' && canPlace(currentX, currentY + 1, shape, field))
         {
             currentY++;
         }
-        else if (key == 'W')
+        else if (key == 'w')
         {
-            rnum = (rnum + 1) % 4;
-            if (!canPlace(currentX, currentY, get_tetromino(currentTetromino), field))
-            {
-                rnum = (rnum - 1 + 4) % 4;
-            }
+            // Handle rotation if needed
+        }
+        else if (key == 'x' || key == 'X')
+        {
+            gameOver = true;
         }
     }
 }

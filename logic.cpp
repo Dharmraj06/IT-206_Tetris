@@ -71,17 +71,20 @@ void Logic::addtogrid(vector<vector<bool>> &grid, tetro curr_tetro, int CurrX, i
     }
 }
 
-bool Logic::canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<bool>>& field) {
+// bool Logic::canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<bool>>& field) {
 
-    for (int i = 0; i < shape.size(); ++i) {
-        for (int j = 0; j < shape[0].size(); ++j) {
-            if (shape[i][j]) {
-                if (x + j < 0 || x + j >= field[0].size() || y + i >= field.size() || (y + i >= 0 && field[y + i][x + j])) {
-                    return false;
-                }
-            }
-        }
-    }
+//     for (int i = 0; i < shape.size(); ++i) {
+//         for (int j = 0; j < shape[0].size(); ++j) {
 
-    return true;
-}
+//             if (shape[i][j])
+//             {
+//                 if (x + j < 0 || x + j >= WIDTH || y + i >= HEIGHT || (y + i >= 0 && field[y + i][x + j]))
+//                 {
+//                     return false;
+//                 }
+//             }
+//         }
+//     }
+
+//     return true;
+// }

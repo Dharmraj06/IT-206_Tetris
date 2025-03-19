@@ -21,7 +21,7 @@ public:
 
     void addtogrid(vector<vector<bool>> &grid, tetro curr_tetro, int CurrX, int CurrY);
 
-    bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<bool>>& field);
+   // bool canPlace(int x, int y, const vector<vector<bool>>& shape, const vector<vector<bool>>& field);
 
 
 private:
