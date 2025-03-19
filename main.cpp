@@ -69,6 +69,7 @@ int main()
         if (gameOver)
         {
             cout << "Game Over!" << endl;
+            cout << score << endl;
             break;
         }
 
@@ -81,6 +82,7 @@ int main()
             logic.addtogrid(field, currenttetro, currentX, currentY);
             logic.clear_lines(field);
 
+            cout << score << endl;    
 
             currenttetro = static_cast<tetro>(rand() % TETROMINOS.size());
             shape = get_tetromino(currenttetro);
