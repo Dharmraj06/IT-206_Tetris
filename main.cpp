@@ -6,6 +6,7 @@
 #include "draw.h"
 #include "tetriminos.h"
 #include "logic.h"
+#include <conio.h>
 
 using namespace std;
 
