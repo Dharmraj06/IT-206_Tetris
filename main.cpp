@@ -40,6 +40,7 @@ int main()
     int currentX = WIDTH / 2 - 2;
     int currentY = 0;
     bool gameOver = false;
+    int score = 0;
 
     while (true)
     {
@@ -80,7 +81,7 @@ int main()
         else
         {
             logic.addtogrid(field, currenttetro, currentX, currentY);
-            logic.clear_lines(field);
+            score += logic.clear_lines(field);
 
             cout << score << endl;    
 
