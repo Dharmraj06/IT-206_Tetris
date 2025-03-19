@@ -6,11 +6,13 @@
 #include "logic.h"
 #include "tetriminos.h"
 
+int score = 0;  
+
 Logic::Logic(){
     // CurrX = 0;
     // CurrY = 0;
 }
-int score = 0;   
+ 
 
 vector<vector<bool>> Logic::rotate(tetro curr_tetro, int rnum) {
 
