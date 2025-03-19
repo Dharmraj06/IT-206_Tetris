@@ -141,6 +141,7 @@ int main()
         // Draw the field and current tetromino
         std::vector<std::vector<bool>> shape = getCurrentShape();
         std::vector<std::vector<int>> tempField = field;
+        
         for (size_t i = 0; i < shape.size(); ++i)
         {
             for (size_t j = 0; j < shape[0].size(); ++j)

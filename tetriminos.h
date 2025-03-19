@@ -32,6 +32,7 @@ const vector<vector<vector<bool>>> TETROMINOS = {
     // T
     {{0, 1, 0}, {1, 1, 1}},
     // Z
-    {{1, 1, 0}, {0, 1, 1}}};
+    {{1, 1, 0}, {0, 1, 1}}
+};
 
 #endif
