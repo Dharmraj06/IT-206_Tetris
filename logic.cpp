@@ -13,25 +13,24 @@ Logic::Logic(){
  
 
 vector<vector<bool>> Logic::rotate(tetro curr_tetro, int rnum) {
-
-
     vector<vector<bool>> shape = get_tetromino(curr_tetro);
-    if (rnum % 4 == 0)
+    int rotations = ((rnum % 4) + 4) % 4;
+    if (rotations == 0) {
         return shape;
-
-    for (int r = 0; r < rnum % 4; ++r) {
-        vector<vector<bool>> new_shape(shape[0].size(), vector<bool>(shape.size()));
-
-        for (int i = 0; i < shape.size(); ++i) {
-            for (int j = 0; j < shape[0].size(); ++j) {
-                new_shape[j][shape.size() - 1 - i] = shape[i][j];
+    }
+    vector<vector<bool>> current_shape = shape;
+    for (int r=0; r<rotations; r++) {
+        int rows = current_shape.size();       
+        int cols = current_shape[0].size(); 
+        vector<vector<bool>> new_shape(cols, vector<bool>(rows));
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                new_shape[j][rows - 1 - i] = current_shape[i][j];
             }
         }
-
-        shape = new_shape;
+        current_shape = new_shape;
     }
-
-    return shape;
+    return current_shape;
 }
 
 int Logic::clear_lines(vector<vector<bool>> &grid) {
