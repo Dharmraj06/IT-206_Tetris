@@ -33,10 +33,10 @@ int main()
     vector<vector<bool>> field(HEIGHT, vector<bool>(WIDTH, 0));
     Logic logic;
 
-    tetro currenttetro = static_cast<tetro>(rand() % 7);//check meaning of this code
+    tetro currenttetro = static_cast<tetro>(rand() % 7); // check meaning of this code
 
     vector<vector<bool>> shape = get_tetromino(currenttetro);
-    
+
     int currentX = WIDTH / 2 - 2;
     int currentY = 0;
     bool gameOver = false;
@@ -61,50 +61,59 @@ int main()
         drawField(tempField);
 
         cout << "tetromino: " << currenttetro << endl;
-        cout<<currentX<<" "<<currentY<<endl;
+        cout << currentX << " " << currentY << endl;
 
-        control(shape, currentX, currentY, tempField, gameOver);
-        
-        cout<<currentX<<" "<<currentY<<endl;
+        control(shape, currentX, currentY, field, gameOver);
 
-        // if (gameOver)
-        // {
-        //     cout << "Game Over!" << endl;
-        //     cout << score << endl;
-        //     break;
-        // }
+        cout << currentX << " " << currentY << endl;
 
-        if (canPlace(currentX, currentY + 1, shape, tempField))
+        if (gameOver)
+        {
+            cout << "Game Over!" << endl;
+            cout << score << endl;
+            break;
+        }
+
+        if (canPlace(currentX, currentY + 1, shape, field))
         {
             currentY++;
         }
         else
         {
-            logic.addtogrid(tempField, currenttetro, currentX, currentY);
-            //logic.addtogrid(tempField, currenttetro, currentX, currentY);
-            score += logic.clear_lines(tempField);
-            field = tempField;
-            cout << score << endl;    
+            vector<vector<bool>> shape = get_tetromino(currenttetro);
+            for (int i = 0; i < shape.size(); i++)
+            {
+                for (int j = 0; j < shape[0].size(); j++)
+                {
+                    if (shape[i][j])
+                    {
+                        field[currentX + i][currentY + j] = true;
+                    }
+                }
+            }
+            // logic.addtogrid(tempField, currenttetro, currentX, currentY);
+            score += logic.clear_lines(field);
+            cout << score << endl;
 
             currenttetro = static_cast<tetro>(rand() % TETROMINOS.size());
-            
+
             shape = get_tetromino(currenttetro);
             currentX = WIDTH / 2 - 2;
             currentY = 0;
 
-            if (!canPlace(currentX, currentY, get_tetromino(currenttetro), tempField))
+            if (!canPlace(currentX, currentY, shape, field))
             {
                 cout << "Game Over!" << endl;
                 break;
             }
         }
 
-    #ifdef _WIN32
+#ifdef _WIN32
         Sleep(200);
-    #else
+#else
         usleep(200000); // 200 milliseconds
-    #endif
-        system("cls"); 
+#endif
+        system("cls");
     }
 
     return 0;
