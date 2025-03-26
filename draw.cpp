@@ -44,19 +44,22 @@ void control(const vector<vector<bool>> &shape, int &currentX, int &currentY, co
         char key = _getch();
         if (key == 'a' && canPlace(currentX - 1, currentY, shape, field))
         {
+            cout << "left" << endl;
             currentX--;
         }
         else if (key == 'd' && canPlace(currentX + 1, currentY, shape, field))
         {
+            cout << "right" << endl;
             currentX++;
         }
-        else if (key == 's' && canPlace(currentX, currentY + 1, shape, field))
+        else if (key == 's' )
         {
+            cout << "down" << endl;
             currentY++;
         }
         else if (key == 'w')
         {
-            // Handle rotation if needed
+            // Handle rotation
         }
         else if (key == 'x' || key == 'X')
         {

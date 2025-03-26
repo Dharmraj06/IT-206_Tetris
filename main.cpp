@@ -33,7 +33,7 @@ int main()
     vector<vector<bool>> field(HEIGHT, vector<bool>(WIDTH, 0));
     Logic logic;
 
-    tetro currenttetro = static_cast<tetro>(rand() % 7);
+    tetro currenttetro = static_cast<tetro>(rand() % 7);//check meaning of this code
 
     vector<vector<bool>> shape = get_tetromino(currenttetro);
     
@@ -67,30 +67,32 @@ int main()
         
         cout<<currentX<<" "<<currentY<<endl;
 
-        if (gameOver)
-        {
-            cout << "Game Over!" << endl;
-            cout << score << endl;
-            break;
-        }
+        // if (gameOver)
+        // {
+        //     cout << "Game Over!" << endl;
+        //     cout << score << endl;
+        //     break;
+        // }
 
-        if (canPlace(currentX, currentY + 1, shape, field))
+        if (canPlace(currentX, currentY + 1, shape, tempField))
         {
             currentY++;
         }
         else
         {
-            logic.addtogrid(field, currenttetro, currentX, currentY);
-            score += logic.clear_lines(field);
-
+            logic.addtogrid(tempField, currenttetro, currentX, currentY);
+            //logic.addtogrid(tempField, currenttetro, currentX, currentY);
+            score += logic.clear_lines(tempField);
+            field = tempField;
             cout << score << endl;    
 
             currenttetro = static_cast<tetro>(rand() % TETROMINOS.size());
+            
             shape = get_tetromino(currenttetro);
             currentX = WIDTH / 2 - 2;
             currentY = 0;
 
-            if (!canPlace(currentX, currentY, get_tetromino(currenttetro), field))
+            if (!canPlace(currentX, currentY, get_tetromino(currenttetro), tempField))
             {
                 cout << "Game Over!" << endl;
                 break;
