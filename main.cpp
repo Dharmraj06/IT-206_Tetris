@@ -79,27 +79,34 @@ int main()
             currentY++;
         }
         else
-        {
+        {   
+
             vector<vector<bool>> shape = get_tetromino(currenttetro);
             for (int i = 0; i < shape.size(); i++)
             {
                 for (int j = 0; j < shape[0].size(); j++)
                 {
-                    if (shape[i][j])
+                    if (shape[i][j] && currentX + i >= 0 && currentX + i < HEIGHT && currentY + j >= 0 && currentY + j < WIDTH)
                     {
                         field[currentX + i][currentY + j] = true;
+                        
+                    }else{
+                        cout<<"Error"<<endl;
+                        cout<<currentX + i<<"  "<<currentY + j<<endl;
                     }
                 }
             }
+            drawField(field);
             // logic.addtogrid(tempField, currenttetro, currentX, currentY);
             score += logic.clear_lines(field);
             cout << score << endl;
-
+            
+            
             currenttetro = static_cast<tetro>(rand() % TETROMINOS.size());
 
             shape = get_tetromino(currenttetro);
-            currentX = WIDTH / 2 - 2;
-            currentY = 0;
+            currentX = WIDTH / 2 - shape[0].size() / 2; // Center the tetromino horizontally
+            currentY = 0; // Start at the top of the field
 
             if (!canPlace(currentX, currentY, shape, field))
             {
