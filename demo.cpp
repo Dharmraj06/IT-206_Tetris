@@ -66,36 +66,48 @@ void setColor(int color) {
 }
 
 void drawField() {
-    system("cls");
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); // Get console handle
+    COORD cursorPosition = {0, 0}; // Start at the top-left corner
+    SetConsoleCursorPosition(hConsole, cursorPosition); // Move cursor to the top-left
+
     vector<vector<int>> tempField = field;
     vector<vector<bool>> shape = getCurrentShape();
-    for (size_t i = 0; i < shape.size(); ++i)
-        for (size_t j = 0; j < shape[0].size(); ++j)
-            if (shape[i][j] && currentY + i >= 0)
-                tempField[currentY + i][currentX + j] = currentTetromino + 1;
 
+    // Add the current tetromino to the temporary field
+    for (size_t i = 0; i < shape.size(); ++i) {
+        for (size_t j = 0; j < shape[0].size(); ++j) {
+            if (shape[i][j] && currentY + i >= 0) {
+                tempField[currentY + i][currentX + j] = currentTetromino + 1;
+            }
+        }
+    }
+
+    // Display the score, high score, and elapsed time
     time_t currentTime = time(nullptr);
     int elapsedTime = static_cast<int>(currentTime - startTime);
-
     cout << "Score: " << score << "  High Score: " << highScore << "  Time: " << elapsedTime << "s\n";
+
+    // Draw the field with borders
     for (int y = 0; y < HEIGHT; ++y) {
-        setColor(9);
+        setColor(9); // Blue for borders
         cout << "|";
         for (int x = 0; x < WIDTH; ++x) {
             if (tempField[y][x]) {
-                setColor(tetrominoColors[tempField[y][x] - 1]);
-                cout << "\xDB";
+                setColor(tetrominoColors[tempField[y][x] - 1]); // Tetromino color
+                cout << "\xDB"; // Filled cell
             } else {
-                setColor(7);
-                cout << " ";
+                setColor(7); // Default color
+                cout << " "; // Empty cell
             }
         }
-        setColor(9);
+        setColor(9); // Blue for borders
         cout << "|\n";
     }
+
+    // Draw the bottom border
     setColor(9);
     cout << "+" << string(WIDTH, '-') << "+\n";
-    setColor(7);
+    setColor(7); // Reset to default color
 }
 
 void mergeTetromino() {
