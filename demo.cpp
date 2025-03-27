@@ -31,7 +31,7 @@ void drawField() {
     for (int y = 0; y < HEIGHT; ++y) {
         for (int x = 0; x < WIDTH; ++x) {
             if (field[y][x]) {
-                cout << "#";
+                cout << "\033[31m#\033[0m\n";
             } else {
                 cout << ".";
             }
