@@ -60,14 +60,16 @@ vector<vector<bool>> getcurrentshape() {
 
     vector<vector<bool>> shape = TETROMINOS[currtetromino];
 
-    for (int r = 0; r < currentrotation; ++r) {
+    for (int r = 0; r < currentrotation; r++) {
 
         vector<vector<bool>> rotated(shape[0].size(), vector<bool>(shape.size()));
 
-        for (int i = 0; i < shape.size(); ++i)
+        for (int i = 0; i < shape.size(); ++i){
             for (int j = 0; j < shape[0].size(); ++j){
+
                 rotated[j][shape.size() - 1 - i] = shape[i][j];
             }
+        }
 
         shape = rotated;
     }
@@ -76,9 +78,9 @@ vector<vector<bool>> getcurrentshape() {
 }
 
 bool canPlace(int x, int y, const vector<vector<bool>> &shape) {
-    for (int i = 0; i < shape.size(); ++i){
+    for (int i = 0; i < shape.size(); i++){
 
-        for (int j = 0; j < shape[0].size(); ++j){
+        for (int j = 0; j < shape[0].size(); j++){
 
             if (shape[i][j] && (x + j < 0 || x + j >= WIDTH || y + i >= HEIGHT || (y + i >= 0 && field[y + i][x + j])))
                 return false;
@@ -95,17 +97,16 @@ void setColor(int color) {
 
 void drawField() {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
-
     COORD cursorPosition = {0, 0};
-
     SetConsoleCursorPosition(consoleHandle, cursorPosition);
+
     vector<vector<int>> tempfield = field;
 
     vector<vector<bool>> shape = getcurrentshape();
 
 
-    for (int i = 0; i < shape.size(); ++i){
-        for (int j = 0; j < shape[0].size(); ++j){
+    for (int i = 0; i < shape.size(); i++){
+        for (int j = 0; j < shape[0].size(); j++){
 
             if (shape[i][j] && currY + i >= 0)
                 tempfield[currY + i][currX + j] = currtetromino + 1;
@@ -156,7 +157,7 @@ void mergeTetromino() {
         for (int j = 0; j < shape[0].size(); ++j){
 
             if (shape[i][j])
-                field[currY + i][currX + j] = currtetromino + 1;
+            field[currY + i][currX + j] = currtetromino + 1;
         }
 
     }        
@@ -181,7 +182,7 @@ void clearLines() {
                 field[yy] = field[yy - 1];
 
             field[0] = vector<int>(WIDTH, 0);
-            score += 10;
+            score += 100;
 
             Beep(1000, 200);
             y++;
@@ -252,7 +253,7 @@ bool gameLoop() {
             }
         }
 
-        Sleep(100);
+        Sleep(200);
     }
 
     return true;
