@@ -253,7 +253,7 @@ bool gameLoop() {
             }
         }
 
-        Sleep(200);
+        Sleep(150);
     }
 
     return true;
