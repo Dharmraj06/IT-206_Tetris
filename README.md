@@ -46,3 +46,5 @@ This is a console-based *Tetris Game* built using *C++* as part of our Object-Or
 
    ```bash
    g++ tetris.cpp -o tetris
+ ![Tetris Gameplay](tetris_final.gif)
+
