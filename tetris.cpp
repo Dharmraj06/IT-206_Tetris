@@ -15,35 +15,45 @@ time_t startTime;
 
 const vector<vector<vector<bool>>> TETROMINOS = {
     {{1, 1, 1, 1}},
+
     {{1, 0, 0}, {1, 1, 1}},
+
     {{0, 0, 1}, {1, 1, 1}},
+
     {{1, 1}, {1, 1}},
+
+
     {{0, 1, 1}, {1, 1, 0}},
+
     {{0, 1, 0}, {1, 1, 1}},
+
     {{1, 1, 0}, {0, 1, 1}}
 };
 
 vector<vector<int>> field(HEIGHT, vector<int>(WIDTH, 0));
-int currentTetromino;
-int currentRotation;
-int currentX;
-int currentY;
 
-vector<int> tetrominoColors = {14, 12, 10, 9, 13, 11, 6};
+int currtetromino;
+int currentrotation;
+int currX;
+int currY;
+
+vector<int> tetrocolors = {14, 12, 10, 9, 13, 11, 6};
+
+
 
 void resetGame() {
     field = vector<vector<int>>(HEIGHT, vector<int>(WIDTH, 0));
-    currentTetromino = rand() % TETROMINOS.size();
-    currentRotation = 0;
-    currentX = WIDTH / 2 - 2;
-    currentY = 0;
+    currtetromino = rand() % TETROMINOS.size();
+    currentrotation = 0;
+    currX = WIDTH / 2 - 2;
+    currY = 0;
     score = 0;
     startTime = time(nullptr);
 }
 
 vector<vector<bool>> getCurrentShape() {
-    vector<vector<bool>> shape = TETROMINOS[currentTetromino];
-    for (int r = 0; r < currentRotation; ++r) {
+    vector<vector<bool>> shape = TETROMINOS[currtetromino];
+    for (int r = 0; r < currentrotation; ++r) {
         vector<vector<bool>> rotated(shape[0].size(), vector<bool>(shape.size()));
         for (size_t i = 0; i < shape.size(); ++i)
             for (size_t j = 0; j < shape[0].size(); ++j)
@@ -74,8 +84,8 @@ void drawField() {
     vector<vector<bool>> shape = getCurrentShape();
     for (size_t i = 0; i < shape.size(); ++i)
         for (size_t j = 0; j < shape[0].size(); ++j)
-            if (shape[i][j] && currentY + i >= 0)
-                tempField[currentY + i][currentX + j] = currentTetromino + 1;
+            if (shape[i][j] && currY + i >= 0)
+                tempField[currY + i][currX + j] = currtetromino + 1;
 
     time_t currentTime = time(nullptr);
     int elapsedTime = static_cast<int>(currentTime - startTime);
@@ -86,7 +96,7 @@ void drawField() {
         cout << "|";
         for (int x = 0; x < WIDTH; ++x) {
             if (tempField[y][x]) {
-                setColor(tetrominoColors[tempField[y][x] - 1]);
+                setColor(tetrocolors[tempField[y][x] - 1]);
                 cout << "# ";
             } else {
                 setColor(7);
@@ -106,7 +116,7 @@ void mergeTetromino() {
     for (size_t i = 0; i < shape.size(); ++i)
         for (size_t j = 0; j < shape[0].size(); ++j)
             if (shape[i][j])
-                field[currentY + i][currentX + j] = currentTetromino + 1;
+                field[currY + i][currX + j] = currtetromino + 1;
 }
 
 void clearLines() {
@@ -139,32 +149,32 @@ bool gameLoop() {
     resetGame();
     while (true) {
         drawField();
-        if (GetAsyncKeyState(VK_LEFT) & 0x8000 && canPlace(currentX - 1, currentY, getCurrentShape()))
-            currentX--;
-        if (GetAsyncKeyState(VK_RIGHT) & 0x8000 && canPlace(currentX + 1, currentY, getCurrentShape()))
-            currentX++;
+        if (GetAsyncKeyState(VK_LEFT) & 0x8000 && canPlace(currX - 1, currY, getCurrentShape()))
+            currX--;
+        if (GetAsyncKeyState(VK_RIGHT) & 0x8000 && canPlace(currX + 1, currY, getCurrentShape()))
+            currX++;
         if (GetAsyncKeyState(VK_UP) & 0x8000) {
-            currentRotation = (currentRotation + 1) % 4;
-            if (!canPlace(currentX, currentY, getCurrentShape()))
-                currentRotation = (currentRotation - 1 + 4) % 4;
+            currentrotation = (currentrotation + 1) % 4;
+            if (!canPlace(currX, currY, getCurrentShape()))
+                currentrotation = (currentrotation - 1 + 4) % 4;
         }
-        if (GetAsyncKeyState(VK_DOWN) & 0x8000 && canPlace(currentX, currentY + 1, getCurrentShape()))
-            currentY++;
+        if (GetAsyncKeyState(VK_DOWN) & 0x8000 && canPlace(currX, currY + 1, getCurrentShape()))
+            currY++;
         if (GetAsyncKeyState('X') & 0x8000 || GetAsyncKeyState('x') & 0x8000) {
             cout << "\nGAME OVER!\n";
             Beep(500, 500);
             break;
         }
-        if (canPlace(currentX, currentY + 1, getCurrentShape()))
-            currentY++;
+        if (canPlace(currX, currY + 1, getCurrentShape()))
+            currY++;
         else {
             mergeTetromino();
             clearLines();
-            currentTetromino = rand() % TETROMINOS.size();
-            currentRotation = 0;
-            currentX = WIDTH / 2 - 2;
-            currentY = 0;
-            if (!canPlace(currentX, currentY, getCurrentShape())) {
+            currtetromino = rand() % TETROMINOS.size();
+            currentrotation = 0;
+            currX = WIDTH / 2 - 2;
+            currY = 0;
+            if (!canPlace(currX, currY, getCurrentShape())) {
                 setColor(12);
                 cout << "\nGAME OVER!\n";
                 Beep(500, 500);
