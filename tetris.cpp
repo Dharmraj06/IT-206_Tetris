@@ -152,9 +152,9 @@ void addtogrid() {
 
     vector<vector<bool>> shape = getcurrentshape();
 
-    for (int i = 0; i < shape.size(); ++i)
+    for (int i = 0; i < shape.size(); i++)
     {
-        for (int j = 0; j < shape[0].size(); ++j){
+        for (int j = 0; j < shape[0].size(); j++){
 
             if (shape[i][j])
             field[currY + i][currX + j] = currtetromino + 1;
@@ -165,10 +165,10 @@ void addtogrid() {
 
 void clearLines() {
 
-    for (int y = HEIGHT - 1; y >= 0; --y) {
+    for (int y = HEIGHT - 1; y >= 0; y--) {
 
         bool full = true;
-        for (int x = 0; x < WIDTH; ++x){
+        for (int x = 0; x < WIDTH; x++){
             if (!field[y][x]) {
                 full = false;
                 break;
@@ -178,7 +178,7 @@ void clearLines() {
 
         if (full) {
 
-            for (int yy = y; yy > 0; --yy)
+            for (int yy = y; yy > 0; y--)
                 field[yy] = field[yy - 1];
 
             field[0] = vector<int>(WIDTH, 0);
