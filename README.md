@@ -36,7 +36,7 @@ This is a console-based *Tetris Game* built using *C++* as part of our Object-Or
 - **Game Timer:**
   - Shows elapsed playtime.
 
-## ⚙ How to Run
+## How to Run
 
 1. **Requirements:**
    - Windows OS
