@@ -148,7 +148,7 @@ void drawField() {
     setColor(7);
 }
 
-void mergeTetromino() {
+void addtogrid() {
 
     vector<vector<bool>> shape = getcurrentshape();
 
@@ -235,7 +235,7 @@ bool gameLoop() {
             currY++;
         else {
 
-            mergeTetromino();
+            addtogrid();
             clearLines();
             currtetromino = rand() % TETROMINOS.size();
 
