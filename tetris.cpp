@@ -64,8 +64,8 @@ vector<vector<bool>> getcurrentshape() {
 
         vector<vector<bool>> rotated(shape[0].size(), vector<bool>(shape.size()));
 
-        for (int i = 0; i < shape.size(); ++i){
-            for (int j = 0; j < shape[0].size(); ++j){
+        for (int i = 0; i < shape.size(); i++){
+            for (int j = 0; j < shape[0].size(); j++){
 
                 rotated[j][shape.size() - 1 - i] = shape[i][j];
             }
