@@ -7,7 +7,7 @@
 
 using namespace std;
 
-const int WIDTH = 20;
+const int WIDTH = 10;
 const int HEIGHT = 20;
 int score = 0;
 int highScore = 0;
@@ -20,7 +20,8 @@ const vector<vector<vector<bool>>> TETROMINOS = {
     {{1, 1}, {1, 1}},
     {{0, 1, 1}, {1, 1, 0}},
     {{0, 1, 0}, {1, 1, 1}},
-    {{1, 1, 0}, {0, 1, 1}}};
+    {{1, 1, 0}, {0, 1, 1}}
+};
 
 vector<vector<int>> field(HEIGHT, vector<int>(WIDTH, 0));
 int currentTetromino;
@@ -30,8 +31,7 @@ int currentY;
 
 vector<int> tetrominoColors = {14, 12, 10, 9, 13, 11, 6};
 
-void resetGame()
-{
+void resetGame() {
     field = vector<vector<int>>(HEIGHT, vector<int>(WIDTH, 0));
     currentTetromino = rand() % TETROMINOS.size();
     currentRotation = 0;
@@ -41,11 +41,9 @@ void resetGame()
     startTime = time(nullptr);
 }
 
-vector<vector<bool>> getCurrentShape()
-{
+vector<vector<bool>> getCurrentShape() {
     vector<vector<bool>> shape = TETROMINOS[currentTetromino];
-    for (int r = 0; r < currentRotation; ++r)
-    {
+    for (int r = 0; r < currentRotation; ++r) {
         vector<vector<bool>> rotated(shape[0].size(), vector<bool>(shape.size()));
         for (size_t i = 0; i < shape.size(); ++i)
             for (size_t j = 0; j < shape[0].size(); ++j)
@@ -55,8 +53,7 @@ vector<vector<bool>> getCurrentShape()
     return shape;
 }
 
-bool canPlace(int x, int y, const vector<vector<bool>> &shape)
-{
+bool canPlace(int x, int y, const vector<vector<bool>> &shape) {
     for (size_t i = 0; i < shape.size(); ++i)
         for (size_t j = 0; j < shape[0].size(); ++j)
             if (shape[i][j] && (x + j < 0 || x + j >= WIDTH || y + i >= HEIGHT || (y + i >= 0 && field[y + i][x + j])))
@@ -64,14 +61,15 @@ bool canPlace(int x, int y, const vector<vector<bool>> &shape)
     return true;
 }
 
-void setColor(int color)
-{
+void setColor(int color) {
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
 }
 
-void drawField()
-{
-    system("cls");
+void drawField() {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD cursorPosition = {0, 0};
+    SetConsoleCursorPosition(consoleHandle, cursorPosition);
+
     vector<vector<int>> tempField = field;
     vector<vector<bool>> shape = getCurrentShape();
     for (size_t i = 0; i < shape.size(); ++i)
@@ -83,33 +81,27 @@ void drawField()
     int elapsedTime = static_cast<int>(currentTime - startTime);
 
     cout << "Score: " << score << "  High Score: " << highScore << "  Time: " << elapsedTime << "s\n";
-    for (int y = 0; y < HEIGHT; ++y)
-    {
+    for (int y = 0; y < HEIGHT; ++y) {
         setColor(9);
         cout << "|";
-        for (int x = 0; x < WIDTH; ++x)
-        {
-            if (tempField[y][x])
-            {
+        for (int x = 0; x < WIDTH; ++x) {
+            if (tempField[y][x]) {
                 setColor(tetrominoColors[tempField[y][x] - 1]);
-                cout << "\xDB";
-            }
-            else
-            {
+                cout << "# ";
+            } else {
                 setColor(7);
-                cout << " ";
+                cout << ". ";
             }
         }
         setColor(9);
         cout << "|\n";
     }
     setColor(9);
-    cout << "+" << string(WIDTH, '-') << "+\n";
+    cout << "+" << string(WIDTH*2, '-') << "+\n";
     setColor(7);
 }
 
-void mergeTetromino()
-{
+void mergeTetromino() {
     vector<vector<bool>> shape = getCurrentShape();
     for (size_t i = 0; i < shape.size(); ++i)
         for (size_t j = 0; j < shape[0].size(); ++j)
@@ -117,19 +109,15 @@ void mergeTetromino()
                 field[currentY + i][currentX + j] = currentTetromino + 1;
 }
 
-void clearLines()
-{
-    for (int y = HEIGHT - 1; y >= 0; --y)
-    {
+void clearLines() {
+    for (int y = HEIGHT - 1; y >= 0; --y) {
         bool full = true;
         for (int x = 0; x < WIDTH; ++x)
-            if (!field[y][x])
-            {
+            if (!field[y][x]) {
                 full = false;
                 break;
             }
-        if (full)
-        {
+        if (full) {
             for (int yy = y; yy > 0; --yy)
                 field[yy] = field[yy - 1];
             field[0] = vector<int>(WIDTH, 0);
@@ -139,51 +127,44 @@ void clearLines()
         }
     }
 }
-void hideCursor()
-{
+void hideCursor() {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_CURSOR_INFO cursorInfo;
     GetConsoleCursorInfo(consoleHandle, &cursorInfo);
-    cursorInfo.bVisible = FALSE;
+    cursorInfo.bVisible = FALSE;  
     SetConsoleCursorInfo(consoleHandle, &cursorInfo);
 }
 
-bool gameLoop()
-{
+bool gameLoop() {
     resetGame();
-    while (true)
-    {
+    while (true) {
         drawField();
         if (GetAsyncKeyState(VK_LEFT) & 0x8000 && canPlace(currentX - 1, currentY, getCurrentShape()))
             currentX--;
         if (GetAsyncKeyState(VK_RIGHT) & 0x8000 && canPlace(currentX + 1, currentY, getCurrentShape()))
             currentX++;
-        if (GetAsyncKeyState(VK_UP) & 0x8000)
-        {
+        if (GetAsyncKeyState(VK_UP) & 0x8000) {
             currentRotation = (currentRotation + 1) % 4;
             if (!canPlace(currentX, currentY, getCurrentShape()))
                 currentRotation = (currentRotation - 1 + 4) % 4;
         }
         if (GetAsyncKeyState(VK_DOWN) & 0x8000 && canPlace(currentX, currentY + 1, getCurrentShape()))
             currentY++;
-        if (GetAsyncKeyState('X') & 0x8000 || GetAsyncKeyState('x') & 0x8000)
-        {
+        if (GetAsyncKeyState('X') & 0x8000 || GetAsyncKeyState('x') & 0x8000) {
             cout << "\nGAME OVER!\n";
             Beep(500, 500);
             break;
         }
         if (canPlace(currentX, currentY + 1, getCurrentShape()))
             currentY++;
-        else
-        {
+        else {
             mergeTetromino();
             clearLines();
             currentTetromino = rand() % TETROMINOS.size();
             currentRotation = 0;
             currentX = WIDTH / 2 - 2;
             currentY = 0;
-            if (!canPlace(currentX, currentY, getCurrentShape()))
-            {
+            if (!canPlace(currentX, currentY, getCurrentShape())) {
                 setColor(12);
                 cout << "\nGAME OVER!\n";
                 Beep(500, 500);
@@ -195,13 +176,12 @@ bool gameLoop()
     return true;
 }
 
-int main()
-{
+int main() {
     srand(static_cast<unsigned int>(time(nullptr)));
-
-    while (true)
-    {
+    system("cls");
+    while (true) {
         hideCursor();
+        
 
         bool restart = gameLoop();
         if (score > highScore)
@@ -214,9 +194,8 @@ int main()
         cout << "Do you want to restart? (Y/N): ";
         char choice;
         cin >> choice;
-
-        if (choice == 'n' || choice == 'N')
-        {
+        
+        if (choice == 'n' || choice == 'N') {
             cout << "Final Score: " << score << "  High Score: " << highScore << endl;
             break;
         }
